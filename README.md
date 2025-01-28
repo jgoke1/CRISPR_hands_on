@@ -297,9 +297,12 @@ process CRISPR_TARGET {
 
     ### step 05:Create  workflow execution block
 
-workflow { { fastp_results = FASTPLONG(params.read, params.sample_id }
+workflow {  fastp_results = FASTPLONG(params.read, params.sample_id) 
 
         multiqc_report = MULTIQC_01(fastqc_results)
+        assembly = ASSEMBLY(fastp_results)
+        alignment = ALIGNMENT(fastp_results, params.sample_id, params.entero_ref)
+        crispr = CRISPR_TARGET(fastp_results, params.crispr_target, params.sample_id)
     }
 
 nextflow run <your-script> -c nextflow.config \`\`\` You can also add
