@@ -295,9 +295,9 @@ process CRISPR_TARGET {
 
 }
 
+    
     ### step 05:Create  workflow execution block
-
-workflow {  
+    workflow {  
         fastp_results = FASTPLONG(params.read, params.sample_id)
         multiqc_report = MULTIQC_01(fastqc_results)
         assembly = ASSEMBLY(fastp_results)
