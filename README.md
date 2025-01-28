@@ -125,7 +125,7 @@ sample IDs. Each ID will be processed in the workflow. sampleID =
     // Path to a file containing sample IDs. Each ID will be processed in the workflow.
         sample_id = '/data/home/kemi_adepeju/nex_crispr/sample.txt'
         
-    // Path to the directory containing MiSeq sequencing reads. This will be used for analysis.
+    // Path to the directory containing sequencing reads. This will be used for analysis.
         reads = '/data/home/kemi_adepeju/nex_crispr/test_data'
         
         outdir = '/data/home/kemi_adepeju/nex_crispr/test_data/output'
