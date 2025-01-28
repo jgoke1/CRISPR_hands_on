@@ -292,9 +292,9 @@ process CRISPR_TARGET {
 
 }
 
+
 //Convert the mapped reads to fastq using bedtools
     bedtools bamtofastq -i ooutput/crispr_target/"$BASENAME"_crispr.bam -fq ooutput/crispr_target/"$BASENAME"_crispr.fastq
-
     //Write the aligned sequence in a text file
     awk 'BEGIN {FS="\t"; OFS="\t"} !/^@/ && $3 != "*" {print $1, $3, $4, $10}' output/crispr_target/"$BASENAME"_mapped.sam > output/crispr_target/"$BASENAME"_mapped.txt
 
