@@ -223,7 +223,7 @@ process conda 'multiqc'
 
     #### ASSEMBLY process
 
-process ASSEMBLY { /
+process ASSEMBLY { 
 
     input:
        input:
@@ -261,7 +261,7 @@ process conda 'fastqc'
     """
     mkdir
     for sample in \$(cat "${sample_id}"); do
-        minimap2 -ax map-ont ${entero_ref} fastp_results/\${sample}_filt_.fastq > alignment/\${sample}.bam
+        minimap2 -ax map-ont ${entero_ref} fastp_results/\${sample}_filt.fastq > alignment/\${sample}.bam
            samtools view -bS -F 4 alignment/\${sample}.bam > alignment/\${sample}.sam
             samtools fastq alignment/\${sample}.bam > alignment/\${sample}.fastq
         done
@@ -284,13 +284,24 @@ process CRISPR_TARGET {
     """
     mkdir fast
     for sample in \$(cat "${sample_id}"); do
-        minimap2 -ax map-ont ${entero_ref} fastp_results/\${sample}_filt_.fastq > alignment/\${sample}.bam
+        minimap2 -ax map-ont ${entero_ref} fastp_results/\${sample}_filt.fastq > alignment/\${sample}.bam
            samtools view -bS -F 4 alignment/\${sample}.bam > alignment/\${sample}.sam
             samtools fastq alignment/\${sample}.bam > alignment/\${sample}.fastq
         done
     """
 
 }
+
+//Convert the mapped reads to fastq using bedtools
+    bedtools bamtofastq -i ooutput/crispr_target/"$BASENAME"_crispr.bam -fq ooutput/crispr_target/"$BASENAME"_crispr.fastq
+
+    //Write the aligned sequence in a text file
+    awk 'BEGIN {FS="\t"; OFS="\t"} !/^@/ && $3 != "*" {print $1, $3, $4, $10}' output/crispr_target/"$BASENAME"_mapped.sam > output/crispr_target/"$BASENAME"_mapped.txt
+
+    //write the aligned to a TSV file to know which of the file mapped
+    echo -e "sample_id\tEnterobacterales\tMapping_Position" > output/crispr_target/"$BASENAME"_mapped.tsv
+
+    samtools view -F 4 output/alignments/"$BASENAME".bam | awk '{print $1, $3, $4}' >> output/crispr_target/"$BASENAME"_mapped.tsv
 
     
     ### step 05:Create  workflow execution block
