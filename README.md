@@ -4,10 +4,7 @@
 
 <h2>Introduction</h2>
 
-**Why Nextflow?:** I think its easier to use and simplifies the design
-and execution of bioinformatics complex workflows, enabling
-reproducibility and scalability across diverse computing environments.
-
+**Why Nextflow?:** In my opinion, it makes extremely complicated workflows more accessible and easier to build and execute, which in turn makes them more reproducible and scalable across different types of computer settings.
 ## Summary of some of the Beneifits:
 
 -   **Reproducibility:** Ensures consistent results across different
