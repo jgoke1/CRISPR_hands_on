@@ -299,13 +299,12 @@ process CRISPR_TARGET {
         assembly = ASSEMBLY(fastp_results)
         alignment = ALIGNMENT(fastp_results, params.sample_id, params.entero_ref)
         crispr = CRISPR_TARGET(fastp_results, params.crispr_target, params.sample_id)
-    }
-//Convert the mapped reads to fastq using bedtools
+    } 
+    //Convert the mapped reads to fastq using bedtools
     bedtools bamtofastq -i ooutput/crispr_target/"$BASENAME"_crispr.bam -fq ooutput/crispr_target/"$BASENAME"_crispr.fastq
     //Write the aligned sequence in a text file
-    awk 'BEGIN {FS="\t"; OFS="\t"} !/^@/ && $3 != "*" {print $1, $3, $4, $10}' output/crispr_target/"$BASENAME"_mapped.sam > output/crispr_target/"$BASENAME"_mapped.txt
-
-//write the aligned to a TSV file to know which of the file mapped
+    awk 'BEGIN {FS="\t"; OFS="\t"} !/^@/ && $3 != "*" {print $1, $3, $4, $10}' output/crispr_target/"$BASENAME"_mapped.sam  > output/crispr_target/"$BASENAME"_mapped.txt
+    //write the aligned to a TSV file to know which of the file mapped
     echo -e "sample_id\tEnterobacterales\tMapping_Position" > output/crispr_target/"$BASENAME"_mapped.tsv
 
     samtools view -F 4 output/alignments/"$BASENAME".bam | awk '{print $1, $3, $4}' >> output/crispr_target/"$BASENAME"_mapped.tsv
